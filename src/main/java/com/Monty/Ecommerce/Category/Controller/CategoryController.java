@@ -2,10 +2,6 @@ package com.Monty.Ecommerce.Category.Controller;
 
 import com.Monty.Ecommerce.Category.Entity.Category;
 import com.Monty.Ecommerce.Category.Service.CategoryService;
-import com.Monty.Ecommerce.Vendor.Entity.Vendor;
-import com.Monty.Ecommerce.Vendor.Service.VendorService;
-import com.Monty.Ecommerce.VendorAddress.Entity.VendorAddress;
-import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,49 +17,49 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
-    //get all Category  ***********************************************************************************
+    //get all Category    ************************************************************************************************
     @GetMapping("/category")
     public List<Category> getAllCategory(){
         return categoryService.getAllCategory();
     }
 
-    //get one Category by id    ***************************************************************************
+    //get one Category by id    ******************************************************************************************
     @GetMapping("/category/{id}")
     public ResponseEntity<Category> getCategoryId(@PathVariable UUID id){
         return categoryService.getCategoryId(id);
     }
 
-    //get Category by name  ******************************************************************************
+    //get Category by name    ********************************************************************************************
     @GetMapping("/category/cat/{title}")
     public List<Category> getCategoryByName(@PathVariable String title){
         return categoryService.getCategoryByName(title);
     }
 
-    //create one Category   ******************************************************************************
+    //create one Category    *********************************************************************************************
     @PostMapping("/category")
     public Category createCategory(@RequestBody Category category){
         return categoryService.createCategory(category);
     }
 
-    //update one Category   *****************************************************************************
+    //update one Category    *********************************************************************************************
     @PutMapping("/category/{id}")
     public ResponseEntity<Category> updateCategory(@PathVariable UUID id, @RequestBody Category categoryDetails){
         return categoryService.updateCategory(id, categoryDetails);
     }
 
-    //delete one Category   ****************************************************************************
+    //delete one Category    *********************************************************************************************
     @DeleteMapping("/category/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteCategory(@PathVariable UUID id){
         return categoryService.deleteCategory(id);
     }
 
-    //delete all Category   ***************************************************************************
+    //delete all Category    *********************************************************************************************
     @DeleteMapping("/category")
     public ResponseEntity<Map<String, Boolean>> deleteAllCategory(){
         return categoryService.deleteAllCategory();
     }
 
-    //create category and a parent category for it  ***************************************************
+    //create category and a parent category for it    *********************************************************************
     @PostMapping("/category/{categoryId}")
     public Category createComment(@PathVariable (value = "categoryId") UUID parentCategoryId, @RequestBody Category category) {
         Category cat = categoryService.findCategory(parentCategoryId);
@@ -75,7 +71,7 @@ public class CategoryController {
         return categoryService.createCategory(category);
     }
     
-    //delete category from list of categories   *******************************************************
+    //delete category from list of categories    ***************************************************************************
     @DeleteMapping("/category/{categoryId}/categorydelete/{deletedCategoryId}")
     public Category daleteComment(@PathVariable (value = "categoryId") UUID parentCategoryId,
             @PathVariable (value = "deletedCategoryId") UUID deletedCategoryId) {
@@ -95,6 +91,9 @@ public class CategoryController {
             if(currentCategories.get(i).getCategoryId().equals(category.getCategoryId())){
                 System.out.println("The category " + category.getTitle() + " exists");
                 return true;
+            }
+            else{
+                System.out.println("The category " + category.getTitle() + " doesn't exist");
             }
         }
         return false;
