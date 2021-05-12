@@ -17,43 +17,43 @@ public class DeliveryDriverController {
     @Autowired
     DeliveryDriverService deliveryDriverService;
 
-    //get all drivers
+    //get all drivers    ********************************************************************************************************
     @GetMapping("/deliverydriver")
     public List<DeliveryDriver> getAllDeliveryDriver(){
         return deliveryDriverService.getAllDeliveryDriver();
     }
 
-    //get one driver by id
+    //get one driver by id    ***************************************************************************************************
     @GetMapping("/deliverydriver/{id}")
     public ResponseEntity<DeliveryDriver> getDeliveryDriverId(@PathVariable UUID id){
         return deliveryDriverService.getDeliveryDriverId(id);
     }
 
-    //get driver by name
+    //get driver by name    *****************************************************************************************************
     @GetMapping("/deliverydriver/dr/{deliveryDriverName}")
     public List<DeliveryDriver> getDeliveryDriverByName(@PathVariable String deliveryDriverName){
         return deliveryDriverService.getDeliveryDriverByName(deliveryDriverName);
     }
 
-    //create one delivery driver
+    //create one driver    ******************************************************************************************************
     @PostMapping("/deliverydriver")
     public DeliveryDriver createDeliveryDriver(@RequestBody DeliveryDriver deliveryDriver){
         return deliveryDriverService.createDeliveryDriver(deliveryDriver);
     }
 
-    //update one brand
+    //update one driver    ******************************************************************************************************
     @PutMapping("/deliverydriver/{id}")
     public ResponseEntity<DeliveryDriver> updateDeliveryDriver(@PathVariable UUID id, @RequestBody DeliveryDriver deliveryDriverDetails){
         return deliveryDriverService.updateDeliveryDriver(id, deliveryDriverDetails);
     }
 
-    //delete one brand
+    //delete one driver    ******************************************************************************************************
     @DeleteMapping("/deliverydriver/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteDeliveryDriver(@PathVariable UUID id){
         return deliveryDriverService.deleteDeliveryDriver(id);
     }
 
-    //delete all brand
+    //delete all driver    ******************************************************************************************************
     @DeleteMapping("/deliverydriver")
     public ResponseEntity<Map<String, Boolean>> deleteAllDeliveryDriver(){
         return deliveryDriverService.deleteAllDeliveryDriver();
