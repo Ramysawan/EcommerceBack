@@ -47,6 +47,7 @@ public class UserController {
     @Autowired
     JwtUtils jwtUtils;
     
+    //create a new user account    *********************************************************************************************
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user) {
 	if (userService.existsByUsername(user.getUsername())) {
@@ -61,6 +62,7 @@ public class UserController {
 	return ResponseEntity.ok("User registered successfully!");
     }
     
+    //authenticate user account    **********************************************************************************************
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 	Authentication authentication = authenticationManager.authenticate(
