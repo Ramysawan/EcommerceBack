@@ -5,7 +5,6 @@
  */
 package com.Monty.Ecommerce.Address.ServiceImpl;
 
-import com.Monty.Ecommerce.Address.ResourceNotFoundException.ResourceNotFoundException;
 import com.Monty.Ecommerce.Address.Entity.Address;
 import com.Monty.Ecommerce.Address.Repository.AddressRepository;
 import com.Monty.Ecommerce.Address.Service.AddressService;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -65,7 +63,6 @@ public class AddressServiceImpl implements AddressService {
         add.setDateCreated(address.getDateCreated());
         Calendar dateUpdated = Calendar.getInstance();
         add.setDateUpdated(dateUpdated);
-        
         add.setTitle(address.getTitle());
         //add.setCustomer(address.getCustomer());
         Address updateAddress = addressRepository.save(add);
