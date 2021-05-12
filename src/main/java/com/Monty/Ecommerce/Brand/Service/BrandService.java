@@ -1,12 +1,10 @@
 package com.Monty.Ecommerce.Brand.Service;
 
-import com.Monty.Ecommerce.Address.Entity.Address;
 import com.Monty.Ecommerce.Brand.Entity.Brand;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.Monty.Ecommerce.Vendor.Entity.Vendor;
 import org.springframework.http.ResponseEntity;
 
 public interface BrandService {

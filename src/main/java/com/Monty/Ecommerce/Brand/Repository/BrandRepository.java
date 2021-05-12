@@ -1,6 +1,5 @@
 package com.Monty.Ecommerce.Brand.Repository;
 
-import com.Monty.Ecommerce.Address.Entity.Address;
 import com.Monty.Ecommerce.Brand.Entity.Brand;
 import org.springframework.data.jpa.repository.JpaRepository;
 
