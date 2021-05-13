@@ -79,25 +79,27 @@ public class PurchaseDetailsController {
         return purchaseDetailsService.createPurchaseDetails(purchaseDetails);
     }
 
-    //update product of purchase details
+    //update product of purchase details    *****************************************************************************************
     @PutMapping("/purchasedetails/{purchaseDetailsId}/product/{productId}")
     public ResponseEntity<PurchaseDetails> updateComments(@PathVariable (value = "purchaseDetailsId") UUID purchaseDetailsId,
                                                        @PathVariable (value = "productId") UUID productId, @RequestBody PurchaseDetails purchaseDetails) {
 
         Product product = productService.findProductById(productId);
         PurchaseDetails pur = purchaseDetailsService.findPurchaseDetailsById(purchaseDetailsId);
-        pur.setProductId(product);
-        return purchaseDetailsService.updatePurchaseDetails(purchaseDetailsId, pur);
+        purchaseDetails.setProductId(product);
+        purchaseDetails.setPurchase(pur.getPurchase());
+        return purchaseDetailsService.updatePurchaseDetails(purchaseDetailsId, purchaseDetails);
     }
 
-    //update purchase of purchase details 
+    //update purchase of purchase details     ***************************************************************************************
     @PutMapping("/purchasedetails/{purchaseDetailsId}/purchase/{purchaseId}")
     public ResponseEntity<PurchaseDetails> updateComments1(@PathVariable (value = "purchaseDetailsId") UUID purchaseDetailsId,
                                                         @PathVariable (value = "purchaseId") UUID purchaseId, @RequestBody PurchaseDetails purchaseDetails) {
 
         Purchase purchase = purchaseService.findPurchaseById(purchaseId);
         PurchaseDetails pur = purchaseDetailsService.findPurchaseDetailsById(purchaseDetailsId);
-        pur.setPurchase(purchase);
-        return purchaseDetailsService.updatePurchaseDetails(purchaseDetailsId, pur);
+        purchaseDetails.setPurchase(purchase);
+        purchaseDetails.setProductId(pur.getProductId());
+        return purchaseDetailsService.updatePurchaseDetails(purchaseDetailsId, purchaseDetails);
     }
 }

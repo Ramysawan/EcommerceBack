@@ -52,10 +52,9 @@ public class PurchaseDetailsServiceImpl implements PurchaseDetailsService {
         pur.setDateCreated(purchaseDetails.getDateCreated());
         Calendar dateUpdated = Calendar.getInstance();
         pur.setDateUpdated(dateUpdated);
-        PurchaseDetails updatePurchaseDetails = purchaseDetailsRepository.save(pur);
-
         pur.setPurchase(purchaseDetails.getPurchase());
         pur.setProductId(purchaseDetails.getProductId());
+        PurchaseDetails updatePurchaseDetails = purchaseDetailsRepository.save(pur);
         return ResponseEntity.ok(updatePurchaseDetails);
     }
 
