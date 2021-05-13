@@ -100,7 +100,7 @@ public class AddressController {
         return addressService.getAddressByState(state);
     }
 
-    //add customer with an address    ************************************************************************************************
+    //add customer with an address    ********************************************************************************
     @PostMapping("/customer/{customerId}")
     public Address createComment(@PathVariable (value = "customerId") UUID customerId, @RequestBody Address address) {
         Customer customer = customerService.findCustomer(customerId);
