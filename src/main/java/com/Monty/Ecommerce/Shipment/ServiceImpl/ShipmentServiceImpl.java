@@ -53,6 +53,7 @@ public class ShipmentServiceImpl implements ShipmentService {
         ship.setDateCreated(shipment.getDateCreated());
         Calendar dateUpdated = Calendar.getInstance();
         ship.setDateUpdated(dateUpdated);
+        //ship.setDeliveryDriver(shipment.getDeliveryDriver());
         Shipment updateShipment = shipmentRepository.save(ship);
         return ResponseEntity.ok(updateShipment);
     }

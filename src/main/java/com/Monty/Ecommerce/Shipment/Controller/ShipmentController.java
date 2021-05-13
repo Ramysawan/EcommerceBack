@@ -27,60 +27,57 @@ public class ShipmentController {
     @Autowired
     DeliveryDriverService deliveryDriverService;
 
-    //get all shipments
+    //get all shipments    ***********************************************************************************************
     @GetMapping("/shipment")
     public List<Shipment> getAllShipment(){
         return shipmentService.getAllShipment();
     }
 
-    //get one shipment by id
+    //get one shipment by id    ******************************************************************************************
     @GetMapping("/shipment/{id}")
     public ResponseEntity<Shipment> getShipmentId(@PathVariable UUID id){
         return shipmentService.getShipmentId(id);
     }
 
-    //get shipment by number
+    //get shipment by number    ******************************************************************************************
     @GetMapping("/shipment/sh/{shipmentNumber}")
     public List<Shipment> getShipmentByShipmentNumber(@PathVariable long shipmentNumber){
         return shipmentService.getShipmentByShipmentNumber(shipmentNumber);
     }
 
-    //create one shipment
+    //create one shipment    *********************************************************************************************
     @PostMapping("/shipment")
     public Shipment createShipment(@RequestBody Shipment shipment){
         return shipmentService.createShipment(shipment);
     }
 
-    //update one shipment
+    //update one shipment    *********************************************************************************************
     @PutMapping("/shipment/{id}")
     public ResponseEntity<Shipment> updateShipment(@PathVariable UUID id, @RequestBody Shipment shipmentDetails){
         return shipmentService.updateShipment(id, shipmentDetails);
     }
 
-    //delete one shipment
+    //delete one shipment    *********************************************************************************************
     @DeleteMapping("/shipment/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteShipment(@PathVariable UUID id){
         return shipmentService.deleteShipment(id);
     }
 
-    //delete all shipment
+    //delete all shipment    *********************************************************************************************
     @DeleteMapping("/shipment")
     public ResponseEntity<Map<String, Boolean>> deleteAllShipment(){
         return shipmentService.deleteAllShipment();
     }
 
-
-    
+    //create new shipment with driver   **********************************************************************************
     @PostMapping("/deliverydriver/{deliveryDriverId}")
-    public Shipment createComments(@PathVariable (value = "deliveryDriverId") UUID deliveryDriverId, @RequestBody Shipment comment) {
+    public Shipment createComments(@PathVariable (value = "deliveryDriverId") UUID deliveryDriverId, @RequestBody Shipment shipment) {
         DeliveryDriver deliveryDriver = deliveryDriverService.findDeliveryDriver(deliveryDriverId);
-
-        comment.setDeliveryDriver(deliveryDriver);
-        return shipmentService.createShipment(comment);
-        //}).orElseThrow(() -> new ResourceNotFoundException("PostId " + vendorId + " not found"));
+        shipment.setDeliveryDriver(deliveryDriver);
+        return shipmentService.createShipment(shipment);
     }
 
-    //****************************************************************************************************
+    //update driver of shipment   ****************************************************************************************
     @PutMapping("/shipment/{shipmentId}/deliverydriver/{deliveryDriverId}")
     public ResponseEntity<Shipment> updateComments(@PathVariable (value = "shipmentId") UUID shipmentId,
                                                    @PathVariable (value = "deliveryDriverId") UUID deliveryDriverId) {
