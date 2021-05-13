@@ -6,16 +6,19 @@
 package com.Monty.Ecommerce.User.Controller;
 
 import com.Monty.Ecommerce.User.Entity.LoginRequest;
+import com.Monty.Ecommerce.User.Entity.Password;
 import com.Monty.Ecommerce.User.Entity.Role;
 import com.Monty.Ecommerce.User.Entity.User;
 import com.Monty.Ecommerce.User.Repository.UserRepository;
 import com.Monty.Ecommerce.User.Service.UserService;
+import com.Monty.Ecommerce.Vendor.Entity.Vendor;
 import com.Monty.Ecommerce.security.jwt.JwtUtils;
 import com.Monty.Ecommerce.security.services.UserDetailsImpl;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -81,6 +86,12 @@ public class UserController {
                 "\nUsername: "+ userDetails.getUsername() +
                 "\nEmail: "+ userDetails.getEmail() +
                 "\nRole: "+ roles);
+    }
+    
+    //change password
+    @PutMapping("/forgotpassword/{username}")
+    public ResponseEntity<User> updateUser(@PathVariable String username, @RequestBody Password pass){
+        return userService.updatePass(username, pass);
     }
     
     

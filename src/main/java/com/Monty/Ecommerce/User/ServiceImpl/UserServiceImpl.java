@@ -5,12 +5,15 @@
  */
 package com.Monty.Ecommerce.User.ServiceImpl;
 
+import com.Monty.Ecommerce.Shipment.Entity.Shipment;
+import com.Monty.Ecommerce.User.Entity.Password;
 import com.Monty.Ecommerce.User.Entity.User;
 import com.Monty.Ecommerce.User.Repository.UserRepository;
 import com.Monty.Ecommerce.User.Service.UserService;
 import java.util.Calendar;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +53,19 @@ public class UserServiceImpl implements UserService {
         user.setDateCreated(dateCreated);
         
         return userRepository.save(user);
+    }
+
+    @Override
+    public ResponseEntity<User> updatePass(String username, Password pass) {
+        Optional<User> u = userRepository.findByUsername(username);
+        
+        User updatedUser = u.get();
+        updatedUser.setLoginPassword(encoder.encode(pass.getPass()));
+        Calendar dateUpdated = Calendar.getInstance();
+        updatedUser.setDateUpdated(dateUpdated);
+        User user = userRepository.save(updatedUser);
+        return ResponseEntity.ok(user);
+        
     }
     
 }
