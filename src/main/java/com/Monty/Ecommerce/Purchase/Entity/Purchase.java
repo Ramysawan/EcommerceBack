@@ -1,6 +1,5 @@
 package com.Monty.Ecommerce.Purchase.Entity;
 
-import com.Monty.Ecommerce.PurchaseDetails.Entity.PurchaseDetails;
 import com.Monty.Ecommerce.Shipment.Entity.Shipment;
 import com.Monty.Ecommerce.Vendor.Entity.Vendor;
 import lombok.Data;
@@ -43,6 +42,9 @@ public class Purchase implements Serializable {
     @Column(name = "date_updated")
     private Calendar dateUpdated;
 
+    @Column(name = "channel_type")
+    private String channelType;
+
     @ManyToOne
     @JoinColumn(name = "vendor_id")
     private Vendor vendor;
@@ -51,9 +53,6 @@ public class Purchase implements Serializable {
     @JoinColumn(name = "shipment_id")
     private Shipment shipment;
 
-    @OneToOne
-    @JoinColumn(name = "purchase_details_id")
-    private PurchaseDetails purchaseDetails;
 
     public Purchase(long orderNumber, Calendar orderDatePlaced, String transactionStatus, boolean isShipped, boolean isActive, Calendar dateCreated, Calendar dateUpdated) {
 
