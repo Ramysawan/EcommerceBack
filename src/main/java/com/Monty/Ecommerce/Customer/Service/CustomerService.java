@@ -16,6 +16,8 @@ public interface CustomerService {
     Customer createCustomer(Customer customer);
 
     ResponseEntity<Customer> getCustomerId(UUID id);
+    
+    Customer findCustomer(UUID id);
 
     ResponseEntity<Customer> updateCustomer(UUID id, Customer customer);
 

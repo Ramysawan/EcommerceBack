@@ -3,6 +3,7 @@ package com.Monty.Ecommerce.Customer.ServiceImpl;
 import com.Monty.Ecommerce.Customer.Entity.Customer;
 import com.Monty.Ecommerce.Customer.Repository.CustomerRepository;
 import com.Monty.Ecommerce.Customer.Service.CustomerService;
+import com.Monty.Ecommerce.Vendor.Entity.Vendor;
 import com.Monty.Ecommerce.VendorAddress.Entity.VendorAddress;
 import com.Monty.Ecommerce.VendorAddress.Repository.VendorAddressRepository;
 import com.Monty.Ecommerce.VendorAddress.Service.VendorAddressService;
@@ -79,6 +80,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Customer> getCustomerByFirstLastName(String name) {
         return customerRepository.findByFirstLastName(name);
+    }
+    
+    @Override
+    public Customer findCustomer(UUID id) {
+        Customer customer = customerRepository.findById(id);//.orElseThrow(() -> new ResourceNotFoundException("Address doesn't exist with id: " + id));
+        return customer;
     }
 
 }

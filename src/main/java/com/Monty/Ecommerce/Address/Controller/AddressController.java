@@ -7,6 +7,10 @@ package com.Monty.Ecommerce.Address.Controller;
 
 import com.Monty.Ecommerce.Address.Entity.Address;
 import com.Monty.Ecommerce.Address.Service.AddressService;
+import com.Monty.Ecommerce.Customer.Entity.Customer;
+import com.Monty.Ecommerce.Customer.Service.CustomerService;
+import com.Monty.Ecommerce.Vendor.Entity.Vendor;
+import com.Monty.Ecommerce.VendorAddress.Entity.VendorAddress;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -32,6 +36,9 @@ public class AddressController {
     
     @Autowired 
     AddressService addressService;
+    
+    @Autowired 
+    CustomerService customerService;
     
     //get all address    *********************************************************************************************
     @GetMapping("/address")
@@ -93,5 +100,12 @@ public class AddressController {
         return addressService.getAddressByState(state);
     }
 
+    //add customer with an address    ************************************************************************************************
+    @PostMapping("/customer/{customerId}")
+    public Address createComment(@PathVariable (value = "customerId") UUID customerId, @RequestBody Address address) {
+        Customer customer = customerService.findCustomer(customerId);
+        address.setCustomer(customer);
+        return addressService.createAddress(address);
+    }
     
 }
