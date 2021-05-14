@@ -26,61 +26,57 @@ public class PaymentController {
     @Autowired
     OrdersService ordersService;
 
-    //get all payments
+    //get all payments    ************************************************************************************************************
     @GetMapping("/payment")
     public List<Payment> getAllPayment() {
         return paymentService.getAllPayment();
     }
 
-    //get one payment by id
+    //get one payment by id    *******************************************************************************************************
     @GetMapping("/payment/{id}")
     public ResponseEntity<Payment> getPaymentId(@PathVariable UUID id) {
         return paymentService.getPaymentId(id);
     }
 
-
-    //create one Payment
+    //create one Payment    **********************************************************************************************************
     @PostMapping("/payment")
     public Payment createPayment(@RequestBody Payment payment) {
         return paymentService.createPayment(payment);
     }
 
-    //update one Payment
+    //update one Payment    **********************************************************************************************************
     @PutMapping("/payment/{id}")
     public ResponseEntity<Payment> updatePayment(@PathVariable UUID id, @RequestBody Payment paymentDetails) {
         return paymentService.updatePayment(id, paymentDetails);
     }
 
-    //delete one Payment
+    //delete one Payment    **********************************************************************************************************
     @DeleteMapping("/payment/{id}")
     public ResponseEntity<Map<String, Boolean>> deletePayment(@PathVariable UUID id) {
         return paymentService.deletePayment(id);
     }
 
-    //delete all Payment
+    //delete all Payment    **********************************************************************************************************
     @DeleteMapping("/payment")
     public ResponseEntity<Map<String, Boolean>> deleteAllPayment() {
         return paymentService.deleteAllPayment();
     }
 
-
+    //add new payment with order    **************************************************************************************************
     @PostMapping("/paymentOrder/{orderId}")
     public Payment createComments(@PathVariable(value = "orderId") UUID orderId, @RequestBody Payment payment) {
         Orders order = ordersService.findOrderById(orderId);
-
         payment.setOrder(order);
         return paymentService.createPayment(payment);
-        //}).orElseThrow(() -> new ResourceNotFoundException("PostId " + vendorId + " not found"));
     }
 
-    //****************************************************************************************************
+    //update order of a payment    ***************************************************************************************************
     @PutMapping("/payment/{paymentId}/orders/{orderId}")
     public ResponseEntity<Payment> updateComments(@PathVariable(value = "paymentId") UUID paymentId,
-                                                   @PathVariable(value = "orderId") UUID orderId) {
+                                                   @PathVariable(value = "orderId") UUID orderId, @RequestBody Payment payment) {
 
         Orders order = ordersService.findOrderById(orderId);
-        Payment pay = paymentService.findPayment(paymentId);
-        pay.setOrder(order);
-        return paymentService.updatePayment(paymentId, pay);
+        payment.setOrder(order);
+        return paymentService.updatePayment(paymentId, payment);
     }
 }

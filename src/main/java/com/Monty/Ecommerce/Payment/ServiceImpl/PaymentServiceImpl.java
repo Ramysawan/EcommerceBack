@@ -45,7 +45,7 @@ public class PaymentServiceImpl implements PaymentService {
         pay.setDateCreated(payment.getDateCreated());
         Calendar dateUpdated = Calendar.getInstance();
         pay.setDateUpdated(dateUpdated);
-
+        pay.setOrder(payment.getOrder());
         Payment updatePayment = paymentRepository.save(pay);
         return ResponseEntity.ok(updatePayment);
     }
