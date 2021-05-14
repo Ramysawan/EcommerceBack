@@ -53,6 +53,8 @@ public class OrdersServiceImpl implements OrdersService {
         ord.setIsCart(orders.getIsCart());
         Calendar dateUpdated = Calendar.getInstance();
         ord.setDateUpdated(dateUpdated);
+        ord.setShipment(orders.getShipment());
+        ord.setCustomer(orders.getCustomer());
         Orders updateOrder = ordersRepository.save(ord);
         return ResponseEntity.ok(updateOrder);
     }
