@@ -21,8 +21,8 @@ public class OrderDetails implements Serializable {
     @Column(name = "order_details_id")
     private UUID orderDetailsId;
 
-    @Column(name = "price")
-    private double price;
+    /*@Column(name = "price")
+    private double price;*/
 
     @Column(name = "quantity")
     private long quantity;
@@ -53,9 +53,9 @@ public class OrderDetails implements Serializable {
     @JoinColumn(name = "order_id")
     private Orders orders;
 
-    public OrderDetails(double price, long quantity, double discount, double tax, double total, boolean isActive, Calendar dateCreated, Calendar dateUpdated) {
+    public OrderDetails(long quantity, double discount, double tax, double total, boolean isActive, Calendar dateCreated, Calendar dateUpdated) {
 
-        this.price = price;
+        //this.price = price;
         this.quantity = quantity;
         this.discount = discount;
         this.tax = tax;

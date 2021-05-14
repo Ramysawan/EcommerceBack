@@ -44,7 +44,7 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
     public ResponseEntity<OrderDetails> updateOrderDetails(UUID id, OrderDetails orderDetails) {
         OrderDetails ord = orderDetailsRepository.findById(id);//.orElseThrow(() -> new ResourceNotFoundException("Address doesn't exist with id: " + id));
 
-        ord.setPrice(orderDetails.getPrice());
+        //ord.setPrice(orderDetails.getPrice());
         ord.setQuantity(orderDetails.getQuantity());
         ord.setDiscount(orderDetails.getDiscount());
         ord.setTax(orderDetails.getTax());
@@ -53,6 +53,8 @@ public class OrderDetailsServiceImpl implements OrderDetailsService {
         ord.setDateCreated(orderDetails.getDateCreated());
         Calendar dateUpdated = Calendar.getInstance();
         ord.setDateUpdated(dateUpdated);
+        ord.setProductId(orderDetails.getProductId());
+        ord.setOrders(orderDetails.getOrders());
         OrderDetails updateOrderDetails = orderDetailsRepository.save(ord);
         return ResponseEntity.ok(updateOrderDetails);
     }
