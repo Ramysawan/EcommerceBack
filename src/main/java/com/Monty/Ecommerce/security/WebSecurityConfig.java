@@ -64,8 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		.authorizeRequests()
                 .antMatchers("/api/v1/signup").permitAll()
                 .antMatchers("/api/v1/signin").permitAll()
-                .antMatchers("/api/v1/shipment").permitAll()
-    		.antMatchers("/api/v1/**").permitAll()
+    		//.antMatchers("/api/v1/**").permitAll()
     		//.anyRequest().authenticated();
                 .and()
                 .logout()
@@ -75,5 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutSuccessUrl("/index");
 
     	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        //http.addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()));
+        //http.addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class);
     }
 }
