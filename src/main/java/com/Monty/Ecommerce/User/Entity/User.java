@@ -41,7 +41,6 @@ public class User implements Serializable {
     private Calendar dateUpdated;
 
     public User(String username, String loginPassword, String email, String role, boolean isActive, Calendar dateCreated, Calendar dateUpdated) {
-
         this.username = username;
         this.loginPassword = loginPassword;
         this.email = email;
@@ -49,7 +48,6 @@ public class User implements Serializable {
         this.isActive = isActive;
         this.dateCreated = dateCreated;
         this.dateUpdated = dateUpdated;
-
     }
 
 

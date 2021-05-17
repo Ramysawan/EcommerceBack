@@ -7,27 +7,21 @@ package com.Monty.Ecommerce.User.Controller;
 
 import com.Monty.Ecommerce.User.Entity.LoginRequest;
 import com.Monty.Ecommerce.User.Entity.Password;
-import com.Monty.Ecommerce.User.Entity.Role;
 import com.Monty.Ecommerce.User.Entity.User;
-import com.Monty.Ecommerce.User.Repository.UserRepository;
 import com.Monty.Ecommerce.User.Service.UserService;
-import com.Monty.Ecommerce.Vendor.Entity.Vendor;
 import com.Monty.Ecommerce.security.jwt.JwtUtils;
 import com.Monty.Ecommerce.security.services.UserDetailsImpl;
-import java.util.Calendar;
-import java.util.HashSet;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -70,22 +64,23 @@ public class UserController {
     //authenticate user account    **********************************************************************************************
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-	Authentication authentication = authenticationManager.authenticate(
+	/*Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-
+        
+        String jwt = jwtUtils.generateJwtToken(authentication);       
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add("Authorization",  "Bearer " + jwt);
+        
 	SecurityContextHolder.getContext().setAuthentication(authentication);
-	String jwt = jwtUtils.generateJwtToken(authentication);
-		
+	
+        
 	UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
 	List<String> roles = userDetails.getAuthorities().stream()
 			.map(item -> item.getAuthority())
 			.collect(Collectors.toList());
-
-	return ResponseEntity.ok("Token: " + jwt +
-                "\nUser id: " + userDetails.getId() +
-                "\nUsername: "+ userDetails.getUsername() +
-                "\nEmail: "+ userDetails.getEmail() +
-                "\nRole: "+ roles);
+        System.out.println("1 " + new Date() + " ");*/
+        
+	return ResponseEntity.ok("Token: " + "\nUser id: ");
     }
     
     //change password

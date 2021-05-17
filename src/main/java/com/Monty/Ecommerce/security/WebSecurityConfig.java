@@ -16,7 +16,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.Monty.Ecommerce.security.jwt.AuthEntryPointJwt;
 import com.Monty.Ecommerce.security.jwt.AuthTokenFilter;
+import com.Monty.Ecommerce.security.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import com.Monty.Ecommerce.security.services.UserDetailsServiceImpl;
+import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -35,7 +41,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthTokenFilter authenticationJwtTokenFilter() {
 	return new AuthTokenFilter();
     }
-
+    
+    @Bean
+    public JwtUsernameAndPasswordAuthenticationFilter authenticationFilter() throws Exception {
+        JwtUsernameAndPasswordAuthenticationFilter authenticationFilter = new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager());
+        authenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/api/v1/signin", "POST"));
+        authenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        return authenticationFilter;
+    }
+    
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
 	authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
@@ -58,12 +72,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     		.exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler)
                 .and()
+                .addFilter(authenticationFilter())
+                .addFilterAfter(authenticationJwtTokenFilter(), JwtUsernameAndPasswordAuthenticationFilter.class)
     		.sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
     		.authorizeRequests()
                 .antMatchers("/api/v1/signup").permitAll()
                 .antMatchers("/api/v1/signin").permitAll()
+                .antMatchers("/api/v1/address/**").hasRole("USER")
     		//.antMatchers("/api/v1/**").permitAll()
     		//.anyRequest().authenticated();
                 .and()
@@ -73,8 +90,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                     .logoutSuccessUrl("/index");
 
-    	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        //http.addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()));
-        //http.addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthenticationFilter.class);
+    	//http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        /*http.addFilterBefore(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterAfter(authenticationJwtTokenFilter(), JwtUsernameAndPasswordAuthenticationFilter.class);*/
     }
 }

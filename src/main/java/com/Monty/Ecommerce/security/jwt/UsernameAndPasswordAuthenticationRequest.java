@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.Monty.Ecommerce.User.Entity;
+package com.Monty.Ecommerce.security.jwt;
 
 import lombok.Data;
 
@@ -12,11 +12,10 @@ import lombok.Data;
  * @author Admin
  */
 @Data
-public class Role {
-    
-    private String role;
+public class UsernameAndPasswordAuthenticationRequest {
+    private String username;
+    private String password;
 
-    public Role(String role) {
-        this.role = role;
+    public UsernameAndPasswordAuthenticationRequest() {
     }
 }

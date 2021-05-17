@@ -1,5 +1,6 @@
 package com.Monty.Ecommerce.security.jwt;
 
+import static com.Monty.Ecommerce.security.jwt.JwtUsernameAndPasswordAuthenticationFilter.getToken;
 import java.io.IOException;
 
 import javax.servlet.FilterChain;
@@ -18,17 +19,21 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.Monty.Ecommerce.security.services.UserDetailsServiceImpl;
+import java.util.Date;
+import org.springframework.security.core.Authentication;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
 	
     @Autowired
     private JwtUtils jwtUtils;
-
+    
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class);
-
+    
+    String globalToken = "";
+    
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = "";
@@ -44,15 +49,18 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 	} catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
 	}
+        System.out.println("2 " + new Date() + " " + globalToken);
+        response.addHeader("Authorization",  "Bearer " + globalToken);
 	filterChain.doFilter(request, response);
-        
     }
 
     private String parseJwt(HttpServletRequest request) {
-	String headerAuth = request.getHeader("Authorization");
+	String headerAuth = getToken();
+        globalToken = headerAuth;
 	if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7, headerAuth.length());
 	}
-	return null;
+        System.out.println("3 " + new Date() + " " + globalToken);
+	return globalToken;
     }
 }

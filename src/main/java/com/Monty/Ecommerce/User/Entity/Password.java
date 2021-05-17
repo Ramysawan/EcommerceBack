@@ -5,29 +5,18 @@
  */
 package com.Monty.Ecommerce.User.Entity;
 
+import lombok.Data;
+
 /**
  *
  * @author Admin
  */
+@Data
 public class Password {
     
     private String pass;
 
-    public Password() {
-    }
-
     public Password(String pass) {
         this.pass = pass;
     }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-    
-    
-    
 }
