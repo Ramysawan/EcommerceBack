@@ -5,23 +5,18 @@
  */
 package com.Monty.Ecommerce.User.Controller;
 
+import com.Monty.Ecommerce.ResourceNotFoundException.ResourceNotFoundException;
 import com.Monty.Ecommerce.User.Entity.LoginRequest;
 import com.Monty.Ecommerce.User.Entity.Password;
 import com.Monty.Ecommerce.User.Entity.User;
 import com.Monty.Ecommerce.User.Service.UserService;
 import com.Monty.Ecommerce.security.jwt.JwtUtils;
-import com.Monty.Ecommerce.security.services.UserDetailsImpl;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -45,17 +40,18 @@ public class UserController {
     //create a new user account    *********************************************************************************************
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user) {
-	if (userService.existsByUsername(user.getUsername())) {
-            return ResponseEntity.ok("Error: Username is already taken!");
-	}
-        else if (userService.existsByEmail(user.getEmail())) {
-            return ResponseEntity.ok("Error: Email is already in use!");
-	}
-        else{
-            userService.saveUser(user);
+        if (userService.existsByUsername(user.getUsername())) {
+            throw new ResourceNotFoundException("Username is already taken");
         }
-	return ResponseEntity.ok("User registered successfully!");
+        else if (userService.existsByEmail(user.getEmail())) {
+            throw new ResourceNotFoundException("Email is already taken");
+        }
+        else{
+           userService.saveUser(user);
+        }
+        return ResponseEntity.ok("User Created");
     }
+
     
     //authenticate user account    **********************************************************************************************
     @PostMapping("/signin")
