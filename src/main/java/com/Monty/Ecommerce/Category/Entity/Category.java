@@ -37,16 +37,20 @@ public class Category implements Serializable {
     @Column(name = "date_updated")
     private Calendar dateUpdated;
 
+    @Column(name = "photo_url")
+    private String photoURL;
+
     @OneToMany
     @JoinColumn(name = "parentcategory_id")
     private List<Category> subCategories;
 
 
-    public Category(String title, String description, boolean isActive, Calendar dateCreated, Calendar dateUpdated) {
+    public Category(String title, String description, boolean isActive, Calendar dateCreated, Calendar dateUpdated, String photoURL) {
         this.title = title;
         this.description = description;
         this.isActive = isActive;
         this.dateCreated = dateCreated;
         this.dateUpdated = dateUpdated;
+        this.photoURL = photoURL;
     }
 }
