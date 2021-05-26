@@ -1,5 +1,6 @@
 package com.Monty.Ecommerce.security;
 
+import com.Monty.Ecommerce.ResourceNotFoundException.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         JwtUsernameAndPasswordAuthenticationFilter authenticationFilter = new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager());
         authenticationFilter.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/api/v1/signin", "POST"));
         authenticationFilter.setAuthenticationManager(authenticationManagerBean());
+
         return authenticationFilter;
     }
     

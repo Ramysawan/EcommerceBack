@@ -56,6 +56,7 @@ public class UserController {
     //authenticate user account    **********************************************************************************************
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        //throw new ResourceNotFoundException("Incorrect username or password");
 	/*Authentication authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         

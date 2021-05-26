@@ -49,6 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
         Calendar dateUpdated = Calendar.getInstance();
         cat.setDateUpdated(dateUpdated);
         cat.setSubCategories(category.getSubCategories());
+        cat.setPhotoURL(category.getPhotoURL());
 
         Category updateCategory = categoryRepository.save(cat);
         return ResponseEntity.ok(updateCategory);
@@ -92,6 +93,7 @@ public class CategoryServiceImpl implements CategoryService {
         Calendar dateUpdated = Calendar.getInstance();
         cat.setDateUpdated(dateUpdated);
         cat.setSubCategories(category.getSubCategories());
+        cat.setPhotoURL(category.getPhotoURL());
 
         Category updateCategory = categoryRepository.save(cat);
         return updateCategory;
