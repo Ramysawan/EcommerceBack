@@ -1,66 +1,84 @@
 package com.Monty.Ecommerce.ContactUs.Service.ServiceImpl;
 
-import com.Monty.Ecommerce.Brand.Entity.Brand;
-import com.Monty.Ecommerce.Brand.Service.BrandService;
 import com.Monty.Ecommerce.ContactUs.Entity.Contact;
+import com.Monty.Ecommerce.ContactUs.Repository.ContactRepository;
 import com.Monty.Ecommerce.ContactUs.Service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
-@RestController
-@RequestMapping("/api/v1/")
-public class ContactServiceImpl {
+@Service
+public class ContactServiceImpl implements ContactService {
 
     @Autowired
-    ContactService contactService;
+    private ContactRepository contactRepository;
 
-    //get all contacted us    *************************************************************************************
-    @GetMapping("/contact")
-    public List<Contact> getAllContact(){
-        return contactService.getAllContact();
+    @Override
+    public List<Contact> getAllContact() {
+        return contactRepository.findAll();
     }
 
-    //get one contact by id    ********************************************************************************
-    @GetMapping("/contact/{id}")
-    public ResponseEntity<Contact> getContactId(@PathVariable UUID id){
-        return contactService.getContactId(id);
+    @Override
+    public List<Contact> getContactByFirstName(String firstName) {
+        return contactRepository.findByFirstName(firstName);
     }
 
-    //get Contact by name    **********************************************************************************
-    @GetMapping("/contact/cn/{firstName}")
-    public List<Contact> getContactByFirstName(@PathVariable String firstName){
-
-        return contactService.getContactByFirstName(firstName);
+    @Override
+    public ResponseEntity<Contact> getContactId(UUID id) {
+        Contact contact = contactRepository.findById(id);//.orElseThrow(() -> new ResourceNotFoundException("Address doesn't exist with id: " + id));
+        return ResponseEntity.ok(contact);
     }
 
-    //create one Contact   ***********************************************************************************
-    @PostMapping("/contact")
-    public Contact createContact(@RequestBody Contact contact){
-        return contactService.createContact(contact);
+    @Override
+    public Contact createContact(Contact contact) {
+        Calendar dateCreated = Calendar.getInstance();
+        contact.setDateCreated(dateCreated);
+        return contactRepository.save(contact);
     }
 
-    //update one Contact   ***********************************************************************************
-    @PutMapping("/contact/{id}")
-    public ResponseEntity<Contact> updateContact(@PathVariable UUID id, @RequestBody Contact contactDetails){
-        return contactService.updateContact(id, contactDetails);
+    @Override
+    public ResponseEntity<Contact> updateContact(UUID id, Contact contact) {
+        Contact con = contactRepository.findById(id);//.orElseThrow(() -> new ResourceNotFoundException("Address doesn't exist with id: " + id));
+
+        con.setFirstName(contact.getFirstName());
+        con.setLastName(contact.getLastName());
+        con.setEmail(contact.getEmail());
+        con.setSubject(contact.getSubject());
+        con.setMessage(contact.getMessage());
+        con.setDateCreated(con.getDateCreated());
+        Calendar dateUpdated = Calendar.getInstance();
+        con.setDateUpdated(dateUpdated);
+
+        Contact updateContact = contactRepository.save(con);
+        return ResponseEntity.ok(updateContact);
     }
 
-    //delete one Contact    ***********************************************************************************
-    @DeleteMapping("/contact/{id}")
-    public ResponseEntity<Map<String, Boolean>> deleteContact(@PathVariable UUID id){
-        return contactService.deleteContact(id);
+    @Override
+    public ResponseEntity<Map<String, Boolean>> deleteContact(UUID id) {
+        Contact contact = contactRepository.findById(id);//.orElseThrow(() -> new ResourceNotFoundException("Address doesn't exist with id: " + id));
+
+        contactRepository.delete(contact);
+        Map<String, Boolean> response = new HashMap();
+        response.put("deleted", Boolean.TRUE);
+
+        return ResponseEntity.ok(response);
     }
 
-    //delete all Contact    ***********************************************************************************
-    @DeleteMapping("/contact")
-    public ResponseEntity<Map<String, Boolean>> deleteAllBrand(){
-        return contactService.deleteAllContact();
+    @Override
+    public ResponseEntity<Map<String, Boolean>> deleteAllContact() {
+        contactRepository.deleteAll();
+
+        Map<String, Boolean> response = new HashMap();
+        response.put("deleted", Boolean.TRUE);
+
+        return ResponseEntity.ok(response);
     }
 
+    @Override
+    public Contact findContact(UUID id) {
+        Contact contact = contactRepository.findById(id);//.orElseThrow(() -> new ResourceNotFoundException("Address doesn't exist with id: " + id));
+        return contact;
+    }
 }

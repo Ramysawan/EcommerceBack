@@ -45,6 +45,10 @@ public class Category implements Serializable {
     private List<Category> subCategories;
 
 
+    @Column(name = "parentcategory_id")
+    private UUID parentId;
+
+
     public Category(String title, String description, boolean isActive, Calendar dateCreated, Calendar dateUpdated, String photoURL) {
         this.title = title;
         this.description = description;
